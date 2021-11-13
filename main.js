@@ -1,7 +1,7 @@
 let body = document.body;
 let title = document.querySelector('h2');
 
-let toDos = ['test 1', 'test 2'];
+let toDos = ['Add your first task!'];
 
 updateToDoList(toDos);
 
