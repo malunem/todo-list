@@ -1,34 +1,59 @@
 let body = document.body;
 let title = document.querySelector('h2');
 
-let sample_ToDos = ['To-Do 1', 'To-Do 2', 'To-Do 3'];
+let toDos = ['test 1', 'test 2'];
 
-updateTaskList(sample_ToDos);
+updateToDoList(toDos);
 
-function updateTaskList(toDos) {
+function createNewToDo(evt) {
+    evt.preventDefault();
+    
+    let input = document.querySelector('#new-todo').value.trim();
+
+    if (!input) return;
+
+    toDos.push(input);
+    document.querySelector('#new-todo').value = '';
+
+    updateToDoList(toDos);
+
+}
+
+function updateToDoList(toDos) {
     
     let task_list = document.querySelector('#task-list');
     
+    while (task_list.firstChild) {
+        task_list.removeChild(task_list.firstChild);
+    } 
+    
     toDos.forEach((toDo, index) => {
         
-        let new_ToDo = document.createElement('div');
-        new_ToDo.classList.add('form-check', 'mb-3')
-
-        let input = document.createElement('input');
-        input.setAttribute('type', 'checkbox')
-        input.setAttribute('id', index)
-        input.classList.add('form-check-input');
-
-        let label = document.createElement('label');
-        label.setAttribute('for', index)
-        label.classList.add('form-check-label');
-
-        let line = document.createElement('hr');
-
-        label.innerHTML = toDo;
-        new_ToDo.appendChild(input)
-        new_ToDo.appendChild(label)
-        new_ToDo.appendChild(line)
-        task_list.appendChild(new_ToDo);
+        task_list.appendChild(renderToDo(toDo, index));
     });
+}
+
+function renderToDo(toDo, index) {
+    
+    let template = document.querySelector('#toDo-template');
+    
+    let template_instance = document.importNode(template.content, true);
+
+    let input = template_instance.querySelector('input');
+    input.setAttribute('id', index)
+
+    let label = template_instance.querySelector('label');
+    label.setAttribute('for', index)
+
+    label.innerHTML = toDo;
+
+    return template_instance;
+}
+
+function removeToDo(evt) {
+    let clickedToDo = evt.target.previousElementSibling.innerHTML;
+    
+    toDos = toDos.filter((toDo) => clickedToDo != toDo);
+    
+    updateToDoList(toDos);
 }

@@ -2,3 +2,11 @@
     background-color: green;
     border-color: green;
 }
+
+.fa-trash-alt {
+    color: red;
+}
+
+.fas {
+    cursor: pointer;
+}
